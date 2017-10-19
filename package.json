@@ -1,6 +1,6 @@
 {
   "name": "popup-es",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight custom modal that works independently of framework",
   "main": "index.js",
   "repository": "https://github.com/jkga/popup.git",
