@@ -1,4 +1,4 @@
-import Popup from '../../dist/src/js/popup.min'
+import Popup from '../../dist/src/js/popup-es.min'
 
 function init(){
 	document.addEventListener('DOMContentLoaded',(e)=>{
