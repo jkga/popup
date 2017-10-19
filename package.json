@@ -1,5 +1,5 @@
 {
-  "name": "popup",
+  "name": "popup-es",
   "version": "0.1.0",
   "description": "Lightweight custom modal that works independently of framework",
   "main": "index.js",
