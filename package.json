@@ -1,8 +1,8 @@
 {
   "name": "popup-es",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lightweight custom modal that works independently of framework",
-  "main": "index.js",
+  "main": "dist/src/js/popup-es.min.js",
   "repository": "https://github.com/jkga/popup.git",
   "author": "kenneth <johnkennethgibasabella@gmail.com>",
   "license": "MIT",
@@ -71,5 +71,8 @@
     "run-sequence": "^2.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+   "browserify": {
+    "transform": [["babelify", { "presets": ["es2015"] }]]
   }
 }
