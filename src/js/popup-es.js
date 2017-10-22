@@ -106,4 +106,26 @@ export default class{
 		return this.offsetParent.offsetParent.close()
 	}
 
+	closeAll(){
+		return new Promise((resolve,reject)=>{
+		document.querySelectorAll(this.selector).forEach((el,index)=>{
+				el.close()
+				setTimeout(()=>{
+					resolve(this)
+				},300)
+			})
+		})	
+	}
+	close(selectors=[]){
+		return new Promise((resolve,reject)=>{
+			selectors.forEach((val,index)=>{
+				document.querySelectorAll(val).forEach((el,i)=>{
+					el.close()
+					resolve(this)
+				})
+			})
+		})
+
+	}
+
 }

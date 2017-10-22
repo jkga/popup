@@ -103,19 +103,22 @@ the `data-popup-toggle` is press. We recommend the use of HTML5 `<dialog>` eleme
 <a href="#" data-target="#modal" data-popup-toggle="open">Popup</a>
 ```   
 
+   
+### Popup functions
+- `element.show()`		Opens the target popup   
+- `element.close()`		Close the target popup
+- `Popup.closeAll()`		Close all the popup instance
+- `Popup.close([])` [querySelector. . .]		Close all popups specified in close params
+
+
 ### Popup attributes
 - `data-popup` [fade]     
-Initialize popup box. Specify a value of **"fade"** to have a fade effect when you open or close the popup. You may change the ***0.2s*** default timming by replacing the value of `*[data-popup="fade"]` in `popup-es.css`   
+Initialize popup box. Specify a value of **"fade"** to have a fade effect when you open or close the popup. You may change the ***0.2s*** default timming by replacing the value of `*[data-popup="fade"]` in `popup-es.css`     
 
-   
-
-- `data-popup-toggle` [open | close]
-**Opens** or **Closed** the popup box.   
+- `data-popup-toggle` [open | close]		**Opens** or **Closed** the popup box.   
 
 
-- `data-target`   
-The popup you want to open. This must be use with `data-popup-toggle="open"` 
-   
+- `data-target` 		The popup you want to open. This must be use with `data-popup-toggle="open"` 
 
 ### Customizing Popup
 **popup-es** is designed to work **without JQuery** or any other similar frameworks. This will give 
