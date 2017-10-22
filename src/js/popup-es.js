@@ -20,69 +20,90 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 export default class{
-	constructor(){
-		this.implementedPopups=[]
-		this._popupOpenHandler()
-		this._popupCloseHandler()
+	constructor(options){
+		//options
+		this.options=options||{}
+		this.options.selectors=this.options.selectors||{}
+		this.options.selectors.popup=this.options.selectors.popup||"data-popup"
+		this.targetSelector=this.options.selectors.target||"data-target"
+		this.toggleSelector=this.options.selectors.toggle||"data-popup-toggle"
+		//selectors
+		this.selector=`[${this.options.selectors.popup}]`
+		this.openSelector=`[${this.toggleSelector}='open']`
+		this.closeSelector=`[${this.toggleSelector}='close']`
+		//funtions
+		this._findPopups(this.selector)
+		this._findPopupHandler(this.openSelector)
 	}
-	_setDisplayAttr(el,display='block'){
-		el.setAttribute('data-popup-display',display)
+	_setDisplayAttr(el,display=true){
+		return display?el.setAttribute('open',''):el.removeAttribute('open')		
 	}
-
-	_populatePopups(selector){
+	_setIndex(el,i){
+		//change the zIndex property everytime you open the popup
+		//this ensures that popup will always stay at the top or bottom depending on the value of i 
+		let date=new Date()
+		return el.style.zIndex=(typeof i=='number')?1:(parseInt((window.getComputedStyle(el,null).getPropertyValue('z-index')))||1)+(date.getMinutes()+date.getSeconds())
+	}
+	_findPopups(selector){
 		return new Promise((resolve,reject)=>{
-			//Do not query visited popups
-			if(typeof this.implementedPopups[selector]!='undefined'){
-				return resolve(this.implementedPopups[selector])
-			}
 
 			document.querySelectorAll(selector).forEach((el,index)=>{
-				//do not override attached open
-				if(typeof el.open=='undefined'){
-					el.open=(e)=>{
-						e.preventDefault()
-						this._setDisplayAttr(el,'open')
-					}
-				}
+				//Ignore already defined popups
+				if(el.popup) return resolve(this)
 
-				if(typeof el.close=='undefined'){
-					el.close=()=>{
-						this._setDisplayAttr(el,'closed')
-					}
+				el.show=(e)=>{
+						//prevent undefined event when calling .show() in console
+						if(e) e.preventDefault()
+						this._setDisplayAttr(el,1)
+						//set z-index
+						this._setIndex(el)
+				}	
+								
+				el.close=()=>{
+					this._setDisplayAttr(el,0)
+					this._setIndex(el,1)
 				}
 
 				//prevent attaching event listeners to the same target
-				this.implementedPopups[selector]=el
-				resolve(el)
-			})
+				el.popup=true
+				//handle close event
+				this._findPopupCloseHandler(`${selector} ${this.closeSelector}`)
 
+				resolve(this)
+			})
+		})
+	}
+	_findPopupHandler(selector){
+		document.querySelectorAll(selector).forEach((el,index)=>{
+			let target=el.getAttribute(this.targetSelector)
+			this._findTargetPopup(target).then((e)=>{
+				el.removeEventListener('click',e.show)
+				el.addEventListener('click',e.show)
+			})
+		})
+	}
+	_findPopupCloseHandler(selector){
+		document.querySelectorAll(selector).forEach((el,val)=>{
+			el.removeEventListener('click',this._closeParentPopup)
+			el.addEventListener('click',this._closeParentPopup)
+		})
+	}
+	_findTargetPopup(target){
+		return new Promise((resolve,reject)=>{
+			document.querySelectorAll(target).forEach((el,index)=>{
+				resolve(el)	
+			})
 		})
 	}
 
 	_closeParentPopup(e){
 		e.preventDefault()
 		//allow close button to be placed inside OR outside .content 
-		if(this.offsetParent.getAttribute('data-popup-display')!=null){
+		if(this.offsetParent.getAttribute('data-popup')!=null){
 			return this.offsetParent.close()	
 		}
 
 		return this.offsetParent.offsetParent.close()
-	}
-
-	_popupOpenHandler(){
-		document.querySelectorAll('[data-popup-button]').forEach((el,index)=>{
-			var target=el.getAttribute('href')
-			this._populatePopups(target).then((e)=>{
-				el.addEventListener('click',e.open)
-			})
-		})
-	}
-
-	_popupCloseHandler(){
-		document.querySelectorAll('[data-popup-toggle]').forEach((el,index)=>{
-			el.removeEventListener('click',this._closeParentPopup)
-			el.addEventListener('click',this._closeParentPopup)
-		})
 	}
 
 }
