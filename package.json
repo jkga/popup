@@ -1,11 +1,12 @@
 {
   "name": "popup-es",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Lightweight custom modal that works independently of framework",
   "main": "dist/src/js/popup-es.min.js",
   "repository": "https://github.com/jkga/popup.git",
   "author": "kenneth <johnkennethgibasabella@gmail.com>",
   "license": "MIT",
+  "keywords":["modal","popup","es6"],
   "resolutions": {
     "minimist": "0.0.8",
     "through2": "0.6.5",
@@ -76,3 +77,4 @@
     "transform": [["babelify", { "presets": ["es2015"] }]]
   }
 }
+        
