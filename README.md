@@ -10,6 +10,10 @@ run `npm install popup-es` or via **yarn**  `yarn add popup-es --dev`. Check the
 for the latest features and updates.
 
 
+### Breaking Change
+> The project is now using `babel-preset-env` instead of `babel-preset-2015`
+
+
 ### How To use
 You can now use the es6 **import** to import this package to your project . By the time of writing, transpiling ES6 codes to ES5 inside `node_modules/` is not enabled by default, we forced the transpilation using `browserify`, `babelify` and `babel-preset-es2015` plugin as a temporary solution.Please read this [FAQ](https://github.com/babel/babelify#why-arent-files-in-node_modules-being-transformed) for more info.   
    

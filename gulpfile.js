@@ -49,7 +49,7 @@ gulp.task('compiling example js',()=>{
 			return browserify({
 				entries:[entry]
 			}).transform(babelify.configure({
-				"presets":["es2015"],
+				"presets":["env"],
 				"extensions": [null]
 			}))
 			.bundle()
